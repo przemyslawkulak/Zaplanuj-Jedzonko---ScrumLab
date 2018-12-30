@@ -1,9 +1,10 @@
+import random
 from datetime import datetime
 
 from django.shortcuts import render
 from django.views import View
 
-from jedzonko.models import Plan
+from jedzonko.models import Recipe
 
 
 class IndexView(View):
@@ -13,6 +14,8 @@ class IndexView(View):
         return render(request, "test.html", ctx)
 
 
-def main_page(request):
-    ctx = Plan.objects.all().count()
-    return render(request, "dashboard.html", {'plans_count': ctx})
+# nie działała próba uruchomienia wyświetlania szablonu za pomocą pętli
+
+def carousel(request):
+    recipes = random.sample(list(Recipe.objects.all()), 3)
+    return render(request, 'index.html', {'first': recipes[0], 'second': recipes[1], 'last': recipes[2]})
