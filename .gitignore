@@ -215,7 +215,6 @@ venv/*
 .idea/*
 
 local_settings.py
-0001_initial.py
 
 
 # End of https://www.gitignore.io/api/python,pycharm

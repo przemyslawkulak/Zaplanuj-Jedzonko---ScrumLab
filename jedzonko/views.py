@@ -4,7 +4,7 @@ from datetime import datetime
 from django.shortcuts import render
 from django.views import View
 
-from jedzonko.models import Plan, Recipe
+from jedzonko.models import Plan, Recipe, RecipePlan
 
 
 class IndexView(View):
@@ -13,7 +13,6 @@ class IndexView(View):
         ctx = {"actual_date": datetime.now()}
         return render(request, "test.html", ctx)
 
-# nie działała próba uruchomienia wyświetlania szablonu za pomocą pętli
 
 def carousel(request):
     recipes = random.sample(list(Recipe.objects.all()), 3)
@@ -24,9 +23,13 @@ def main_page(request):
     ctx_plan = Plan.objects.all().count()
     ctx_recipe = Recipe.objects.all().count()
     last_plan = Plan.objects.all().order_by('created')[:1]
+    list_plan = []
+    recipe_plan = RecipePlan.objects.all().filter(plan_id=last_plan[0].id)
+    for value in recipe_plan:
+        list_plan.append({"days": value.day_name_id.day_type, 'meals': value.meal_name,
+                          'recipes': value.recipe_id.name})
     return render(request, "dashboard.html", {'plans_count': ctx_plan, 'recipe_count': ctx_recipe,
-                                              'last_plan': last_plan[0]})
-
+                                              'plan_name': last_plan[0], 'plan_list': list_plan})
 
 
 def recipe_list(request):
