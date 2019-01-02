@@ -17,3 +17,7 @@ def main_page(request):
     ctx_plan = Plan.objects.all().count()
     ctx_recipe = Recipe.objects.all().count()
     return render(request, "dashboard.html", {'plans_count': ctx_plan, 'recipe_count': ctx_recipe})
+
+
+def recipe_list(request):
+    return render(request, "recipes.html")
