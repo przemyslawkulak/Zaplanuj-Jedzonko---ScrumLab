@@ -28,3 +28,15 @@ def main_page(request):
 
 def recipe_list(request):
     return render(request, "recipes.html")
+
+
+def contact_link(request):
+    return render(request, "contact.html")
+
+
+def about_link(request):
+    return render(request, "about.html")
+
+
+def index_link(request):
+    return render(request, "index.html")
