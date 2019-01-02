@@ -28,3 +28,10 @@ def main_page(request):
 
 def recipe_list(request):
     return render(request, "recipes.html")
+
+
+def recipe_add(request):
+    if request.method == "POST":
+        return render(request, 'app-add-recipe.html')
+    elif request.method == "GET":
+        return render(request, 'app-add-recipe.html')
