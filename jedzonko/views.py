@@ -23,7 +23,10 @@ def carousel(request):
 def main_page(request):
     ctx_plan = Plan.objects.all().count()
     ctx_recipe = Recipe.objects.all().count()
-    return render(request, "dashboard.html", {'plans_count': ctx_plan, 'recipe_count': ctx_recipe})
+    last_plan = Plan.objects.all().order_by('created')[:1]
+    return render(request, "dashboard.html", {'plans_count': ctx_plan, 'recipe_count': ctx_recipe,
+                                              'last_plan': last_plan[0]})
+
 
 
 def recipe_list(request):
