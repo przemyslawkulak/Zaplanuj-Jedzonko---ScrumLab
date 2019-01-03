@@ -20,7 +20,7 @@ from jedzonko.views import IndexView, main_page, recipe_list, carousel, contact_
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('index/', IndexView.as_view()),
+    path('index/', IndexView.as_view()),
     path('', carousel, name='landing-page'),
     path('main/', main_page),
     path('recipe/list/', recipe_list, name="recipe-list"),
