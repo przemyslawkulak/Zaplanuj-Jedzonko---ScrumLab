@@ -28,3 +28,11 @@ def main_page(request):
 
 def recipe_list(request):
     return render(request, "recipes.html")
+
+
+def recipes(request):
+    return render(request, "recipes.html")
+
+
+def new_recipe(request):
+    return render(request, "app-add-recipe.html")
