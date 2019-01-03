@@ -14,7 +14,6 @@ class IndexView(View):
         ctx = {"actual_date": datetime.now()}
         return render(request, "test.html", ctx)
 
-
 # nie działała próba uruchomienia wyświetlania szablonu za pomocą pętli
 
 def carousel(request):
@@ -46,4 +45,4 @@ def about_link(request):
 
 def index_link(request):
     return render(request, "index.html")
-    
+
