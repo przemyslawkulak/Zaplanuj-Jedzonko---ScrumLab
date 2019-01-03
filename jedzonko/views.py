@@ -46,3 +46,10 @@ def about_link(request):
 def index_link(request):
     return render(request, "index.html")
 
+def plan_list(request):
+    b = Plan.objects.all().order_by('name')
+    paginator = Paginator(b, 2)
+    page = request.GET.get('page')
+    a = paginator.get_page(page)
+    return render(request, "app-schedules.html", {'all_plans': a})
+
