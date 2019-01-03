@@ -34,3 +34,16 @@ def recipe_list(request):
     page = request.GET.get('page')
     a = paginator.get_page(page)
     return render(request, "recipes.html", {'all_recipes': a})
+
+
+def contact_link(request):
+    return render(request, "contact.html")
+
+
+def about_link(request):
+    return render(request, "about.html")
+
+
+def index_link(request):
+    return render(request, "index.html")
+    
