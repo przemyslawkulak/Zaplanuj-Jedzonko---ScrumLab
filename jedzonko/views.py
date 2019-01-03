@@ -46,4 +46,7 @@ def about_link(request):
 
 def index_link(request):
     return render(request, "index.html")
-    
+
+
+def recipe_view(request, id):
+    return render(request, 'recipe-details.html')
