@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.views import View
 
-from jedzonko.models import Plan, Recipe
+from jedzonko.models import Plan, Recipe, RecipePlan
 
 
 class IndexView(View):
@@ -49,4 +49,8 @@ def index_link(request):
 
 
 def recipe_view(request, id):
-    return render(request, 'recipe-details.html')
+    return render(request, 'recipe-details.html',)
+
+
+def plan_details(request, id):
+    return render(request, 'app-details-schedules.html', {'id': id})

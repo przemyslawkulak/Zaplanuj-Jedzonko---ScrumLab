@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, re_path
 
 from jedzonko.views import IndexView, main_page, recipe_list, carousel, contact_link, about_link, index_link, \
-    recipe_view
+    recipe_view, plan_details
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,5 +28,6 @@ urlpatterns = [
     path('contact/', contact_link, name="contact"),
     path('about/', about_link, name="about"),
     path('index/', index_link, name="index"),
-    re_path('recipe/(?P<id>(\d)+)', recipe_view, name="recipe-detail-view")
+    re_path(r'^recipe/(?P<id>(\d)+)', recipe_view, name='recipe-detail-view'),
+    re_path(r'^plan/(?P<id>(\d)+)', plan_details, name='schedule-details'),
 ]
