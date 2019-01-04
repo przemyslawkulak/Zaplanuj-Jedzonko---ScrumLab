@@ -17,13 +17,14 @@ from django.contrib import admin
 from django.urls import path, re_path
 
 from jedzonko.views import IndexView, main_page, recipe_list, carousel, contact_link, about_link, index_link, \
-    plan_list, recipe_add, recipe_detail
+    plan_list, recipe_add, recipe_detail, plan_add
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', IndexView.as_view()),
     path('', carousel, name='landing-page'),
+    path('plan/add/', plan_add, name="plan-add"),
     path('main/', main_page, name="main-page"),
     path('recipe/list/', recipe_list, name="recipe-list"),
     path('recipe/add/', recipe_add, name="new-recipe"),
