@@ -1,6 +1,7 @@
 import random
 from datetime import datetime
 
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.views import View
 
@@ -12,6 +13,7 @@ class IndexView(View):
     def get(self, request):
         ctx = {"actual_date": datetime.now()}
         return render(request, "test.html", ctx)
+
 
 # nie działała próba uruchomienia wyświetlania szablonu za pomocą pętli
 
@@ -27,8 +29,27 @@ def main_page(request):
 
 
 def recipe_list(request):
-    return render(request, "recipes.html")
+    b = Recipe.objects.all().order_by('-votes', '-created')
+    paginator = Paginator(b, 50)
+    page = request.GET.get('page')
+    a = paginator.get_page(page)
+    return render(request, "recipes.html", {'all_recipes': a})
+    
+
+def recipe_add(request):
+    if request.method == "POST":
+        return render(request, 'app-add-recipe.html')
+    elif request.method == "GET":
+        return render(request, 'app-add-recipe.html')
 
 
-def new_recipe(request):
-    return render(request, "app-add-recipe.html")
+def contact_link(request):
+    return render(request, "contact.html")
+
+
+def about_link(request):
+    return render(request, "about.html")
+
+
+def index_link(request):
+    return render(request, "index.html")
