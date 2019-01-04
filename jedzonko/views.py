@@ -14,6 +14,7 @@ class IndexView(View):
         ctx = {"actual_date": datetime.now()}
         return render(request, "test.html", ctx)
 
+
 # nie działała próba uruchomienia wyświetlania szablonu za pomocą pętli
 
 def carousel(request):
@@ -46,3 +47,34 @@ def about_link(request):
 def index_link(request):
     return render(request, "index.html")
 
+
+def recipe_detail(request, id):
+    recipe_details = []
+    recipe = Recipe.objects.all().filter(id=id)
+    for value in recipe:
+        recipe_details.append({"name": value.name, 'ingredients': value.ingredients,
+                               'description': value.description, 'preparation_time': value.preparation_time,
+                               'votes': value.votes})
+        return render(request, "recipe-details.html", {'recipe_details': recipe_details})
+
+
+def new_recipe(request):
+    return render(request, "app-add-recipe.html")
+
+
+def recipe_modify(request, id):
+    recipe = Recipe.objects.all().filter(id=id)
+    return render(request, "app-edit-recipe.html")
+
+
+def plan_details(request, id):
+    plan = Plan.objects.all().filter(id=id)
+    return render(request, "app-details-schedules.html")
+
+
+def new_plan(request):
+    return render(request, "app-add-schedules.html")
+
+
+def add_plan_detail(request):
+    return render(request, "app-schedules-meal-recipe.html")
