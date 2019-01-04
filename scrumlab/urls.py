@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from jedzonko.views import IndexView, main_page, recipe_list, carousel, recipe_add, contact_link, about_link, index_link
+from jedzonko.views import IndexView, main_page, recipe_list, carousel, contact_link, about_link, index_link, plan_list, recipe_add
 
 
 urlpatterns = [
@@ -29,4 +29,5 @@ urlpatterns = [
     path('contact/', contact_link, name="contact"),
     path('about/', about_link, name="about"),
     path('index/', index_link, name="index"),
+    path('plan/list/', plan_list, name="plan-list"),
 ]
