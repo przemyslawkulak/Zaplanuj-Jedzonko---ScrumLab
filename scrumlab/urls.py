@@ -31,6 +31,6 @@ urlpatterns = [
     path('contact/', contact_link, name="contact"),
     path('about/', about_link, name="about"),
     path('index/', index_link, name="index"),
-    re_path(r'^recipe/(?P<id>(\d)+)', recipe_detail, name="recipe-detail-view")
+    re_path(r'^recipe/(?P<id>(\d)+)', recipe_detail, name="recipe-detail-view"),
     path('plan/list/', plan_list, name="plan-list"),
 ]
