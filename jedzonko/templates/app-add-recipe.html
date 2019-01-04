@@ -3,8 +3,9 @@
 {% block title %}Nowy przepis{% endblock %}
 
 {% block content %}
+<form method="POST">
 <div class="dashboard-content border-dashed p-3 m-4 view-height">
-
+    {% csrf_token %}
     <div class="mt-4 ml-4 mr-4">
         <div class="row border-bottom border-3">
             <div class="col"><h3 class="color-header text-uppercase">Nowy
@@ -12,7 +13,7 @@
             <div class="col d-flex justify-content-end mb-2">
                 <button type="submit"
                         class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">
-                    Zapisz
+                        Wyślij
                 </button>
             </div>
         </div>
@@ -27,8 +28,9 @@
             </tr>
             <tr class="d-flex">
                 <th scope="row" class="col-2">Opis przepisu</th>
-                <td class="col-7"><textarea class="w-100 p-1"
-                                            rows="5"></textarea></td>
+                <td class="col-7">
+                    <input class="w-100 p-1" value="">
+                </td>
             </tr>
             <tr class="d-flex">
                 <th scope="row" class="col-2">Przygotowani(minuty)</th>
@@ -58,4 +60,5 @@
         </div>
     </div>
 </div>
+</form>
 {% endblock content %}
