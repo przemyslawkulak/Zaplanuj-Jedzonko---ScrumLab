@@ -34,6 +34,13 @@ def recipe_list(request):
     page = request.GET.get('page')
     a = paginator.get_page(page)
     return render(request, "recipes.html", {'all_recipes': a})
+    
+
+def recipe_add(request):
+    if request.method == "POST":
+        return render(request, 'app-add-recipe.html')
+    elif request.method == "GET":
+        return render(request, 'app-add-recipe.html')
 
 
 def contact_link(request):
@@ -56,3 +63,11 @@ def recipe_detail(request, id):
                                'description': value.description, 'preparation_time': value.preparation_time,
                                'votes': value.votes})
         return render(request, "recipe-details.html", {'recipe_details': recipe_details})
+
+
+def plan_list(request):
+    b = Plan.objects.all().order_by('name')
+    paginator = Paginator(b, 2)
+    page = request.GET.get('page')
+    a = paginator.get_page(page)
+    return render(request, "app-schedules.html", {'all_plans': a})
