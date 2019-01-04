@@ -34,7 +34,7 @@ def recipe_list(request):
     page = request.GET.get('page')
     a = paginator.get_page(page)
     return render(request, "recipes.html", {'all_recipes': a})
-
+    
 
 def recipe_add(request):
     if request.method == "POST":

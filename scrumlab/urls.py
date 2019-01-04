@@ -25,7 +25,7 @@ urlpatterns = [
     path('', carousel, name='landing-page'),
     path('main/', main_page),
     path('recipe/list/', recipe_list, name="recipe-list"),
-    path('recipe/add/', recipe_add),
+    path('recipe/add/', recipe_add, name="new-recipe"),
     path('contact/', contact_link, name="contact"),
     path('about/', about_link, name="about"),
     path('index/', index_link, name="index"),
