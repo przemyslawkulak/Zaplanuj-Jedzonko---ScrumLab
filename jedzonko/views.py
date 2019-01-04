@@ -36,6 +36,13 @@ def recipe_list(request):
     return render(request, "recipes.html", {'all_recipes': a})
 
 
+def recipe_add(request):
+    if request.method == "POST":
+        return render(request, 'app-add-recipe.html')
+    elif request.method == "GET":
+        return render(request, 'app-add-recipe.html')
+
+
 def contact_link(request):
     return render(request, "contact.html")
 
@@ -46,4 +53,3 @@ def about_link(request):
 
 def index_link(request):
     return render(request, "index.html")
-    
