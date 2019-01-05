@@ -32,7 +32,7 @@ urlpatterns = [
     path('index/', index_link, name="index"),
     re_path(r'^recipe/modify/(?P<id>(\d)+)/', recipe_modify),
     re_path(r'^plan/(?P<id>(\d)+)/', plan_details),
-    path('plan/add/details/', add_plan_detail, name="add-plan-detail"),
     re_path(r'^recipe/(?P<id>(\d)+)', recipe_detail, name="recipe-detail-view"),
     path('plan/list/', plan_list, name="plan-list"),
+    path('plan/add/details/', add_plan_detail, name="add-plan-detail"),
 ]
