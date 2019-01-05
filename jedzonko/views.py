@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
-from jedzonko.models import Plan, Recipe, DayName
+from jedzonko.models import Plan, Recipe, DayName, RecipePlan
 
 
 class IndexView(View):
@@ -18,8 +18,6 @@ class IndexView(View):
         return render(request, "test.html", ctx)
 
 
-# nie działała próba uruchomienia wyświetlania szablonu za pomocą pętli
-
 def carousel(request):
     recipes = random.sample(list(Recipe.objects.all()), 3)
     return render(request, 'index.html', {'first': recipes[0], 'second': recipes[1], 'last': recipes[2]})
@@ -28,7 +26,14 @@ def carousel(request):
 def main_page(request):
     ctx_plan = Plan.objects.all().count()
     ctx_recipe = Recipe.objects.all().count()
-    return render(request, "dashboard.html", {'plans_count': ctx_plan, 'recipe_count': ctx_recipe})
+    last_plan = Plan.objects.all().order_by('created')[0]
+    list_to_page = {}
+    all_objects = last_plan.plan.all().order_by('day_name_id__order', 'order')
+    for obj in all_objects:
+        key = obj.day_name_id
+        list_to_page.setdefault(key, []).append(obj)
+    return render(request, "dashboard.html", {'plans_count': ctx_plan, 'recipe_count': ctx_recipe,
+                                              'plan_name': last_plan, 'plans': list_to_page, })
 
 
 def recipe_list(request):
