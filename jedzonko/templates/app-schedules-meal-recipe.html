@@ -16,24 +16,24 @@
             <div class="form-group row">
                 <label for="choosePlan"
                        class="col-sm-2 label-size col-form-label">
-                    Wybierz plan
+                    Nazwa planu:
                 </label>
+                {% for value in plan %}
+                <div type="hidden" value="{{ value.plan_id }}"></div>
+
+
                 <div class="col-sm-3">
-                    <select class="form-control" id="choosePlan">
-                        <option>Mój pierwszy plan</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
+                    {{ value.name }}
                 </div>
+                {% endfor %}
             </div>
+
             <div class="form-group row">
                 <label for="name" class="col-sm-2 label-size col-form-label">
                     Nazwa posiłku
                 </label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" value="" id="name"
+                    <input type="text" class="form-control" value="{{ RecipePlan.meal_name }}" id="name"
                            placeholder="Nazwa posiłku">
                 </div>
             </div>
@@ -42,7 +42,7 @@
                     Numer posiłku
                 </label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" value="" id="number"
+                    <input type="number" class="form-control"  value="{{ RecipePlan.RecipePlan_id }}" id="number"
                            placeholder="Numer posiłki">
                 </div>
             </div>
@@ -52,11 +52,9 @@
                 </label>
                 <div class="col-sm-4">
                     <select class="form-control" id="recipie">
-                        <option>Zapiekanka z ziemniakami i brukselką</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        {% for value in recipes %}
+                        <option>{{ value.recipe_name }}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
@@ -65,13 +63,13 @@
                     Dzień
                 </label>
                 <div class="col-sm-2">
+
                     <select class="form-control" id="day">
-                        <option>poniedziałek</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                         {% for value in days %}
+                        <option>{{ value.day_type }}</option>
+                         {% endfor %}
                     </select>
+
                 </div>
             </div>
         </form>
