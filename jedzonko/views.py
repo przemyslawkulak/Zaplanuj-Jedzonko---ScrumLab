@@ -1,11 +1,14 @@
 import random
 from datetime import datetime
 
+from django.core.exceptions import PermissionDenied
+
 from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
-from jedzonko.models import Plan, Recipe
+from jedzonko.models import Plan, Recipe, DayName
 
 
 class IndexView(View):
@@ -36,11 +39,28 @@ def recipe_list(request):
     return render(request, "recipes.html", {'all_recipes': a})
 
 
-def recipe_add(request):
+def recipe_add(request, **kwargs):
     if request.method == "POST":
-        return render(request, 'app-add-recipe.html')
-    elif request.method == "GET":
-        return render(request, 'app-add-recipe.html')
+        try:
+            if 'id' in kwargs:
+                recipe = Recipe.objects.get(id=kwargs['id'])
+            else:
+                recipe = Recipe()
+            name = request.POST['name']
+            ingredients = request.POST['ingredients']
+            description = request.POST['description']
+            preparation_time = int(request.POST['preparation_time'])
+            votes = int(request.POST['votes'])
+            recipe.name = name
+            recipe.ingredients = ingredients
+            recipe.description = description
+            recipe.preparation_time = preparation_time
+            recipe.votes = votes
+            recipe.save()
+            return redirect('recipe-list')
+        except (KeyError, ValueError):
+            return render(request, 'app-add-recipe.html', {'err': 'Wypełnij poprawnie wszystkie pola!'})
+    return render(request, 'app-add-recipe.html')
 
 
 def recipe_detail(request, id):
@@ -51,6 +71,11 @@ def recipe_detail(request, id):
                                'description': value.description, 'preparation_time': value.preparation_time,
                                'votes': value.votes})
         return render(request, "recipe-details.html", {'recipe_details': recipe_details})
+
+
+def recipe_modify(request, id):
+    recipe = Recipe.objects.all().filter(id=id)
+    return render(request, "app-edit-recipe.html")
 
 
 def contact_link(request):
@@ -95,4 +120,28 @@ def new_plan(request, **kwargs):
 
 
 def add_plan_detail(request):
-    return render(request, "app-schedules-meal-recipe.html")
+    if request.method == "POST":
+        return redirect('add-plan-detail')
+    elif request.method == "GET":
+        #if 'plan_id' in request.session:
+            all_days = []
+            all_recipes = []
+            plan_details = []
+            days = DayName.objects.all()
+            recipes = Recipe.objects.all()
+            plan = Plan.objects.all().filter(id=3)
+            for value in plan:
+                plan_details.append({"name": value.name, "plan_id": value.id})
+            for value in days:
+                all_days.append({"day_type": value.day_type})
+            for value in recipes:
+                all_recipes.append({"recipe_name": value.name})
+            return render(request, 'app-schedules-meal-recipe.html',
+                          {'plan': plan_details, 'days': all_days, 'recipes': all_recipes})
+
+       # raise PermissionDenied
+
+
+def plan_details(request, id):
+    plan = Plan.objects.all().filter(id=id)
+    return render(request, "app-details-schedules.html")
