@@ -98,11 +98,25 @@ def plan_list(request):
     return render(request, "app-schedules.html", {'all_plans': a})
 
 
-def plan_add(request):
+def new_plan(request, **kwargs):
     if request.method == "POST":
-        return render(request, 'app-add-schedules.html')
-    elif request.method == "GET":
-        return render(request, 'app-add-schedules.html')
+        if 'id' in kwargs:
+            plan = Plan.objects.get(id=kwargs['id'])
+        else:
+            plan = Plan()
+        name = request.POST['name']
+        if not name:
+            return render(request, 'app-add-schedules.html', {'err': 'Wypełnij poprawnie wszystkie pola!'})
+        description = request.POST['description']
+        if not description:
+            return render(request, 'app-add-schedules.html', {'err': 'Wypełnij poprawnie wszystkie pola!'})
+        plan.name = name
+        plan.description = description
+        plan.save()
+        request.session['plan_id'] = 'id'
+
+        return redirect('add-plan-detail')
+    return render(request, 'app-add-schedules.html')
 
 
 def add_plan_detail(request):
