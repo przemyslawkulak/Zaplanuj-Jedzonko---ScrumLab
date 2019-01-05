@@ -71,6 +71,11 @@ def recipe_detail(request, id):
         return render(request, "recipe-details.html", {'recipe_details': recipe_details})
 
 
+def recipe_modify(request, id):
+    recipe = Recipe.objects.all().filter(id=id)
+    return render(request, "app-edit-recipe.html")
+
+
 def contact_link(request):
     return render(request, "contact.html")
 
@@ -96,3 +101,12 @@ def plan_add(request):
         return render(request, 'app-add-schedules.html')
     elif request.method == "GET":
         return render(request, 'app-add-schedules.html')
+
+
+def plan_details(request, id):
+    plan = Plan.objects.all().filter(id=id)
+    return render(request, "app-details-schedules.html")
+
+
+def add_plan_detail(request):
+    return render(request, "app-schedules-meal-recipe.html")
