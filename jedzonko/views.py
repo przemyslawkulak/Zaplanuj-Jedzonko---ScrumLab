@@ -2,7 +2,8 @@ import random
 from datetime import datetime
 
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.views import View
 
 from jedzonko.models import Plan, Recipe
@@ -36,16 +37,28 @@ def recipe_list(request):
     return render(request, "recipes.html", {'all_recipes': a})
 
 
-def contact_link(request):
-    return render(request, "contact.html")
-
-
-def about_link(request):
-    return render(request, "about.html")
-
-
-def index_link(request):
-    return render(request, "index.html")
+def recipe_add(request, **kwargs):
+    if request.method == "POST":
+        try:
+            if 'id' in kwargs:
+                recipe = Recipe.objects.get(id=kwargs['id'])
+            else:
+                recipe = Recipe()
+            name = request.POST['name']
+            ingredients = request.POST['ingredients']
+            description = request.POST['description']
+            preparation_time = int(request.POST['preparation_time'])
+            votes = int(request.POST['votes'])
+            recipe.name = name
+            recipe.ingredients = ingredients
+            recipe.description = description
+            recipe.preparation_time = preparation_time
+            recipe.votes = votes
+            recipe.save()
+            return redirect('recipe-list')
+        except (KeyError, ValueError):
+            return render(request, 'app-add-recipe.html', {'err': 'Wypełnij poprawnie wszystkie pola!'})
+    return render(request, 'app-add-recipe.html')
 
 
 def recipe_detail(request, id):
@@ -58,22 +71,41 @@ def recipe_detail(request, id):
         return render(request, "recipe-details.html", {'recipe_details': recipe_details})
 
 
-def new_recipe(request):
-    return render(request, "app-add-recipe.html")
-
-
 def recipe_modify(request, id):
     recipe = Recipe.objects.all().filter(id=id)
     return render(request, "app-edit-recipe.html")
 
 
+def contact_link(request):
+    return render(request, "contact.html")
+
+
+def about_link(request):
+    return render(request, "about.html")
+
+
+def index_link(request):
+    return render(request, "index.html")
+
+
+def plan_list(request):
+    b = Plan.objects.all().order_by('name')
+    paginator = Paginator(b, 2)
+    page = request.GET.get('page')
+    a = paginator.get_page(page)
+    return render(request, "app-schedules.html", {'all_plans': a})
+
+
+def plan_add(request):
+    if request.method == "POST":
+        return render(request, 'app-add-schedules.html')
+    elif request.method == "GET":
+        return render(request, 'app-add-schedules.html')
+
+
 def plan_details(request, id):
     plan = Plan.objects.all().filter(id=id)
     return render(request, "app-details-schedules.html")
-
-
-def new_plan(request):
-    return render(request, "app-add-schedules.html")
 
 
 def add_plan_detail(request):

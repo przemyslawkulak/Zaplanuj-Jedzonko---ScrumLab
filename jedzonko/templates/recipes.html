@@ -48,7 +48,9 @@
             <div class="orange-line w-100"></div>
         </div>
     </section>
-
+    <form class="col d-flex justify-content-end mb-2">
+        <a class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4" href="{% url 'new-recipe' %}">Nowy przepis</a>
+    </form>
     <section class="mr-4 ml-4"> 
     <table class="table">
             <thead>
@@ -67,8 +69,8 @@
                 <td class="col-5">
                     {{ recipe.name }} ({{ recipe.votes}})
                 </td>
-                <td clas="col-5">{{ recipe.description }}</td>
-                  <td class="col-1"><a href="#" class="btn btn-info rounded-0 text-light">Szczegóły</a></td>
+                <td class="col-5">{{ recipe.description }}</td>
+                  <td class="col-1"><a href="{% url 'recipe-detail-view' recipe.id %}" class="btn btn-info rounded-0 text-light">Szczegóły</a></td>
               </tr>
             {%  endfor %}
 
