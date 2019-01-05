@@ -4,6 +4,7 @@ from datetime import datetime
 from django.core.exceptions import PermissionDenied
 
 from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
@@ -38,11 +39,28 @@ def recipe_list(request):
     return render(request, "recipes.html", {'all_recipes': a})
 
 
-def recipe_add(request):
+def recipe_add(request, **kwargs):
     if request.method == "POST":
-        return render(request, 'app-add-recipe.html')
-    elif request.method == "GET":
-        return render(request, 'app-add-recipe.html')
+        try:
+            if 'id' in kwargs:
+                recipe = Recipe.objects.get(id=kwargs['id'])
+            else:
+                recipe = Recipe()
+            name = request.POST['name']
+            ingredients = request.POST['ingredients']
+            description = request.POST['description']
+            preparation_time = int(request.POST['preparation_time'])
+            votes = int(request.POST['votes'])
+            recipe.name = name
+            recipe.ingredients = ingredients
+            recipe.description = description
+            recipe.preparation_time = preparation_time
+            recipe.votes = votes
+            recipe.save()
+            return redirect('recipe-list')
+        except (KeyError, ValueError):
+            return render(request, 'app-add-recipe.html', {'err': 'Wypełnij poprawnie wszystkie pola!'})
+    return render(request, 'app-add-recipe.html')
 
 
 def recipe_detail(request, id):
@@ -53,6 +71,11 @@ def recipe_detail(request, id):
                                'description': value.description, 'preparation_time': value.preparation_time,
                                'votes': value.votes})
         return render(request, "recipe-details.html", {'recipe_details': recipe_details})
+
+
+def recipe_modify(request, id):
+    recipe = Recipe.objects.all().filter(id=id)
+    return render(request, "app-edit-recipe.html")
 
 
 def contact_link(request):
@@ -103,3 +126,8 @@ def add_plan_detail(request):
                           {'plan': plan_details, 'days': all_days, 'recipes': all_recipes})
 
        # raise PermissionDenied
+
+
+def plan_details(request, id):
+    plan = Plan.objects.all().filter(id=id)
+    return render(request, "app-details-schedules.html")
