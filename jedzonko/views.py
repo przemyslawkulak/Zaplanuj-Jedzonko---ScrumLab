@@ -23,14 +23,14 @@ def carousel(request):
 def main_page(request):
     ctx_plan = Plan.objects.all().count()
     ctx_recipe = Recipe.objects.all().count()
-    last_plan = Plan.objects.all().order_by('created')[:1]
-    list_plan = []
-    recipe_plan = RecipePlan.objects.all().filter(plan_id=last_plan[0].id)
-    for value in recipe_plan:
-        list_plan.append({"days": value.day_name_id.day_type, 'meals': value.meal_name,
-                          'recipes': value.recipe_id.name})
+    last_plan = Plan.objects.all().order_by('created')[0]
+    list_to_page = {}
+    all_objects = last_plan.plan.all().order_by('day_name_id__order', 'order')
+    for obj in all_objects:
+        key = obj.day_name_id
+        list_to_page.setdefault(key, []).append(obj)
     return render(request, "dashboard.html", {'plans_count': ctx_plan, 'recipe_count': ctx_recipe,
-                                              'plan_name': last_plan[0], 'plan_list': list_plan})
+                                              'plan_name': last_plan, 'plans': list_to_page, })
 
 
 def recipe_list(request):
