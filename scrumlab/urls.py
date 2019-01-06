@@ -16,8 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 
-from jedzonko.views import IndexView, main_page, recipe_list, carousel, contact_link, about_link, index_link, \
-    plan_list, recipe_add, recipe_detail, plan_add, recipe_modify, plan_details, add_plan_detail
+from jedzonko.views import main_page, recipe_list, carousel, contact_link, about_link, index_link, plan_list, recipe_add, recipe_detail, new_plan, recipe_modify, plan_details, add_plan_detail
 
 
 urlpatterns = [
@@ -29,7 +28,7 @@ urlpatterns = [
     path('contact/', contact_link, name="contact"),
     path('about/', about_link, name="about"),
     path('index/', index_link, name="index"),
-    path('plan/add/', plan_add, name="new-plan"),
+    path('plan/add/', new_plan, name="new-plan"),
     re_path(r'^recipe/modify/(?P<id>(\d)+)/', recipe_modify),
     re_path(r'^plan/(?P<id>(\d)+)/', plan_details),
     re_path(r'^recipe/(?P<id>(\d)+)', recipe_detail, name="recipe-detail-view"),
