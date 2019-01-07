@@ -148,5 +148,10 @@ def add_plan_detail(request):
 
 
 def plan_details(request, id):
-    plan = Plan.objects.all().filter(id=id)
-    return render(request, "app-details-schedules.html")
+    plan = Plan.objects.get(id=id)
+    days_in_plan = {}
+    all_objects = plan.plan.all().order_by('day_name_id__order', 'order')
+    for obj in all_objects:
+        key = obj.day_name_id
+        days_in_plan.setdefault(key, []).append(obj)
+    return render(request, "app-details-schedules.html", {'plan': plan, 'details': days_in_plan})
