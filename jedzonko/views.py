@@ -18,7 +18,7 @@ class IndexView(View):
         return render(request, "test.html", ctx)
 
 
-def carousel(request):
+def index_link(request):
     recipes = random.sample(list(Recipe.objects.all()), 3)
     return render(request, 'index.html', {'first': recipes[0], 'second': recipes[1], 'last': recipes[2]})
 
@@ -91,8 +91,8 @@ def about_link(request):
     return render(request, "about.html")
 
 
-def index_link(request):
-    return render(request, "index.html")
+# def index_link(request):
+#     return render(request, "index.html")
 
 
 def plan_list(request):
