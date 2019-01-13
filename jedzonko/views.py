@@ -91,8 +91,12 @@ def about_link(request):
     return render(request, "about.html")
 
 
-# def index_link(request):
-#     return render(request, "index.html")
+def registration(request):
+    return render(request, 'registration.html')
+
+
+def app_login(request):
+    return render(request, 'login.html')
 
 
 def plan_list(request):
@@ -143,8 +147,6 @@ def add_plan_detail(request):
                 all_recipes.append({"recipe_name": value.name})
             return render(request, 'app-schedules-meal-recipe.html',
                           {'plan': plan_details, 'days': all_days, 'recipes': all_recipes})
-
-       # raise PermissionDenied
 
 
 def plan_details(request, id):

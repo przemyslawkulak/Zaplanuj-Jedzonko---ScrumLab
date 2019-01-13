@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 
-from jedzonko.views import main_page, recipe_list, contact_link, about_link, index_link, plan_list, recipe_add, recipe_detail, new_plan, recipe_modify, plan_details, add_plan_detail
-
+from jedzonko.views import main_page, recipe_list, contact_link, about_link, index_link, plan_list, recipe_add, \
+    recipe_detail, new_plan, recipe_modify, plan_details, add_plan_detail, app_login, registration
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index_link, name='landing-page'),
+    path('login/', app_login, name='login-page'),
+    path('registration/', registration, name="register-page"),
     path('main/', main_page, name="main-page"),
     path('recipe/list/', recipe_list, name="recipe-list"),
     path('recipe/add/', recipe_add, name="new-recipe"),
