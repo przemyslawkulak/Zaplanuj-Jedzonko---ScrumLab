@@ -16,20 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 
-from jedzonko.views import IndexView, main_page, recipe_list, carousel, contact_link, about_link, index_link, \
-    plan_list, recipe_add, recipe_detail, plan_add, recipe_modify, plan_details, add_plan_detail
-
+from jedzonko.views import main_page, recipe_list, contact_link, about_link, index_link, plan_list, recipe_add, \
+    recipe_detail, new_plan, recipe_modify, plan_details, add_plan_detail, app_login, registration
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', carousel, name='landing-page'),
+    path('', index_link, name='landing-page'),
+    path('login/', app_login, name='login-page'),
+    path('registration/', registration, name="register-page"),
     path('main/', main_page, name="main-page"),
     path('recipe/list/', recipe_list, name="recipe-list"),
     path('recipe/add/', recipe_add, name="new-recipe"),
     path('contact/', contact_link, name="contact"),
     path('about/', about_link, name="about"),
-    path('index/', index_link, name="index"),
-    path('plan/add/', plan_add, name="new-plan"),
+    path('plan/add/', new_plan, name="new-plan"),
     re_path(r'^recipe/modify/(?P<id>(\d)+)/', recipe_modify),
     re_path(r'^plan/(?P<id>(\d)+)/', plan_details),
     re_path(r'^recipe/(?P<id>(\d)+)', recipe_detail, name="recipe-detail-view"),

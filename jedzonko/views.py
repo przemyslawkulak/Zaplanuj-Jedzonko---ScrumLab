@@ -18,7 +18,7 @@ class IndexView(View):
         return render(request, "test.html", ctx)
 
 
-def carousel(request):
+def index_link(request):
     recipes = random.sample(list(Recipe.objects.all()), 3)
     return render(request, 'index.html', {'first': recipes[0], 'second': recipes[1], 'last': recipes[2]})
 
@@ -91,8 +91,12 @@ def about_link(request):
     return render(request, "about.html")
 
 
-def index_link(request):
-    return render(request, "index.html")
+def registration(request):
+    return render(request, 'registration.html')
+
+
+def app_login(request):
+    return render(request, 'login.html')
 
 
 def plan_list(request):
@@ -144,9 +148,12 @@ def add_plan_detail(request):
             return render(request, 'app-schedules-meal-recipe.html',
                           {'plan': plan_details, 'days': all_days, 'recipes': all_recipes})
 
-       # raise PermissionDenied
-
 
 def plan_details(request, id):
-    plan = Plan.objects.all().filter(id=id)
-    return render(request, "app-details-schedules.html")
+    plan = Plan.objects.get(id=id)
+    days_in_plan = {}
+    all_objects = plan.plan.all().order_by('day_name_id__order', 'order')
+    for obj in all_objects:
+        key = obj.day_name_id
+        days_in_plan.setdefault(key, []).append(obj)
+    return render(request, "app-details-schedules.html", {'plan': plan, 'details': days_in_plan})
