@@ -17,7 +17,9 @@ from django.contrib import admin
 from django.urls import path, re_path
 
 from jedzonko.views import main_page, recipe_list, contact_link, about_link, index_link, plan_list, recipe_add, \
-    recipe_detail, new_plan, recipe_modify, plan_details, add_plan_detail, app_login, registration
+    recipe_detail, new_plan, recipe_modify, plan_details, add_plan_detail, app_login, registration, \
+    AddPlanDetailsView, PlansDetailsView, AddPlanView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,10 +31,11 @@ urlpatterns = [
     path('recipe/add/', recipe_add, name="new-recipe"),
     path('contact/', contact_link, name="contact"),
     path('about/', about_link, name="about"),
-    path('plan/add/', new_plan, name="new-plan"),
     re_path(r'^recipe/modify/(?P<id>(\d)+)/', recipe_modify),
     re_path(r'^plan/(?P<id>(\d)+)/', plan_details),
     re_path(r'^recipe/(?P<id>(\d)+)', recipe_detail, name="recipe-detail-view"),
     path('plan/list/', plan_list, name="plan-list"),
-    path('plan/add/details/', add_plan_detail, name="add-plan-detail"),
+    path('plan/add/', AddPlanView.as_view(), name='add-plan'),
+    path('plan/add/details/', AddPlanDetailsView.as_view(), name='add-plan-details'),
+    path('plan/list/details', PlansDetailsView.as_view(), name='plan-list-details'),
 ]

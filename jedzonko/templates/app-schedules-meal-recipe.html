@@ -19,8 +19,7 @@
                     Nazwa planu:
                 </label>
                 {% for value in plan %}
-                <div type="hidden" value="{{ value.plan_id }}"></div>
-
+                <div type="hidden" name="plan_id" value="{{ value.plan_id }}"></div>
 
                 <div class="col-sm-3">
                     {{ value.name }}
