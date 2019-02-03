@@ -1,4 +1,4 @@
-# Zaplanuj Jedzonko:  
+# Zaplanuj Jedzonko  
 ## Aplikacja szkoleniowa służąca do:  
 •	Tworzenia planów żywieniowych  
 •	Tworzenia przepisów w ramach planu żywieniowego  
