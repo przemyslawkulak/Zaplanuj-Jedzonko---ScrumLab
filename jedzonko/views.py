@@ -38,7 +38,7 @@ def main_page(request):
 
 def recipe_list(request):
     b = Recipe.objects.all().order_by('-votes', '-created')
-    paginator = Paginator(b, 50)
+    paginator = Paginator(b, 10)
     page = request.GET.get('page')
     a = paginator.get_page(page)
     return render(request, "recipes.html", {'all_recipes': a})
@@ -101,7 +101,7 @@ def app_login(request):
 
 def plan_list(request):
     b = Plan.objects.all().order_by('name')
-    paginator = Paginator(b, 2)
+    paginator = Paginator(b, 10)
     page = request.GET.get('page')
     a = paginator.get_page(page)
     return render(request, "app-schedules.html", {'all_plans': a})
@@ -121,6 +121,7 @@ def new_plan(request, **kwargs):
             return render(request, 'app-add-schedules.html', {'err': 'Wypełnij poprawnie wszystkie pola!'})
         plan.name = name
         plan.description = description
+
         plan.save()
         request.session['plan_id'] = 'id'
 
@@ -129,16 +130,16 @@ def new_plan(request, **kwargs):
 
 
 def add_plan_detail(request):
-    if request.method == "POST":
-        return redirect('add-plan-detail')
-    elif request.method == "GET":
-        #if 'plan_id' in request.session:
+    # if request.method == "POST":
+    #     return redirect('add-plan-detail')
+    if request.method == "GET":
+        if 'plan_id' in request.session:
             all_days = []
             all_recipes = []
             plan_details = []
             days = DayName.objects.all()
             recipes = Recipe.objects.all()
-            plan = Plan.objects.all().filter(id=3)
+            plan = Plan.objects.get(id=3)
             for value in plan:
                 plan_details.append({"name": value.name, "plan_id": value.id})
             for value in days:
